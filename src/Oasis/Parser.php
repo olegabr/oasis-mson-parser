@@ -42,7 +42,7 @@ class Parser
         } else {
             $escape_warnings = ';';
         }
-        $params = "$drafter -f {$format} /tmp/input$escape_warnings";
+        $params = "$binary -f {$format} /tmp/input$escape_warnings";
 
         $results = shell_exec($params);
         return call_user_func([$decoder, 'decode'], $results);
