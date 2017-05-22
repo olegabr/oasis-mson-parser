@@ -40,7 +40,7 @@ class Parser
         if($escape_warnings) {
             $escape_warnings = ' 2> /dev/null';
         } else {
-            $escape_warnings = ';';
+            $escape_warnings = '';
         }
         $params = "$binary -f {$format} /tmp/input$escape_warnings";
 
