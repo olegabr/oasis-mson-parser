@@ -29,7 +29,7 @@ class Parser
      * @param  string $binary specify the location of the drafter binary
      * @return array          Array of MSON data
      */
-    public static function parse($data, $format = 'json', $binary = 'drafter')
+    public static function parse($data, $format = 'json', $escape_warnings = true, $binary = 'drafter')
     {
         if (!array_key_exists($format, self::$decoders)) {
             throw new Exception('Invalid decoder.');
@@ -37,7 +37,12 @@ class Parser
         $decoder = self::$decoders[$format];
 
         $input = file_put_contents('/tmp/input', $data);
-        $params = "$binary -f {$format} /tmp/input";
+        if($escape_warnings) {
+            $escape_warnings = ' 2> /dev/null';
+        } else {
+            $escape_warnings = ';'
+        }
+        $params = "$drafter -f {$format} /tmp/input$escape_warnings";
 
         $results = shell_exec($params);
         return call_user_func([$decoder, 'decode'], $results);
